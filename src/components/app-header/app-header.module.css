@@ -22,7 +22,7 @@
 }
 
 .link_active {
-  color: var(--text-primary-color);
+  color: var(--color-text-primary);
 }
 
 .link_position_last {

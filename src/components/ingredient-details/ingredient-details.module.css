@@ -1,0 +1,36 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 40px 60px;
+}
+
+.image {
+  display: block;
+  width: 480px;
+  max-width: 100%;
+  height: 240px;
+  object-fit: contain;
+}
+
+.title {
+  margin: 16px 0 32px;
+  text-align: center;
+}
+
+.details_list {
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detail_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 112px;
+  text-align: center;
+}
