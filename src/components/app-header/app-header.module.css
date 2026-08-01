@@ -1,5 +1,5 @@
 .header {
-  background-color: var(--background);
+  background-color: #1c1c21;
 }
 
 .menu {
@@ -17,12 +17,12 @@
 
 .link {
   display: flex;
-  color: var(--text-inactive-color);
+  color: #8585ad;
   text-decoration: none;
 }
 
 .link_active {
-  color: var(--color-text-primary);
+  color: #f2f2f3;
 }
 
 .link_position_last {
