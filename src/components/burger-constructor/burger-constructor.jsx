@@ -8,7 +8,6 @@ import styles from './burger-constructor.module.css';
 export const BurgerConstructor = ({
   bun,
   fillings,
-  onIngredientClick,
   onOrderClick,
   onRemoveIngredient,
 }) => {
@@ -23,7 +22,6 @@ export const BurgerConstructor = ({
       <BurgerConstructorContent
         bun={bun}
         fillings={fillings}
-        onIngredientClick={onIngredientClick}
         onRemoveIngredient={onRemoveIngredient}
       />
       <BurgerConstructorOrder

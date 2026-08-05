@@ -40,6 +40,8 @@ export const App = () => {
   }, []);
 
   const handleIngredientClick = useCallback((ingredient) => {
+    setSelectedIngredient(ingredient);
+
     if (ingredient.type === 'bun') {
       setConstructorBun(ingredient);
     } else {
@@ -51,10 +53,6 @@ export const App = () => {
         },
       ]);
     }
-  }, []);
-
-  const handleConstructorIngredientClick = useCallback((ingredient) => {
-    setSelectedIngredient(ingredient);
   }, []);
 
   const handleOrderClick = useCallback(() => {
@@ -91,7 +89,6 @@ export const App = () => {
             <BurgerConstructor
               bun={constructorBun}
               fillings={constructorFillings}
-              onIngredientClick={handleConstructorIngredientClick}
               onOrderClick={handleOrderClick}
               onRemoveIngredient={handleRemoveIngredient}
             />

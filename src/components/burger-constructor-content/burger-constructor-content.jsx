@@ -7,7 +7,6 @@ import styles from './burger-constructor-content.module.css';
 export const BurgerConstructorContent = ({
   bun,
   fillings,
-  onIngredientClick,
   onRemoveIngredient,
 }) => {
   return (
@@ -30,7 +29,6 @@ export const BurgerConstructorContent = ({
             <ConstructorFillingItem
               key={item.constructorId}
               ingredient={item}
-              onIngredientClick={onIngredientClick}
               onRemoveIngredient={onRemoveIngredient}
             />
           ))}

@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
   padding: 40px 16px;
+  pointer-events: none;
 }
 
 .modal {
@@ -15,6 +16,7 @@
   max-width: 100%;
   background: #1c1c21;
   border-radius: 40px;
+  pointer-events: auto;
   box-shadow:
     0 24px 32px rgb(0 0 0 / 4%),
     0 16px 24px rgb(0 0 0 / 4%),

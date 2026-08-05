@@ -5,20 +5,12 @@ import {
 
 import styles from './constructor-filling-item.module.css';
 
-export const ConstructorFillingItem = ({
-  ingredient,
-  onIngredientClick,
-  onRemoveIngredient,
-}) => {
+export const ConstructorFillingItem = ({ ingredient, onRemoveIngredient }) => {
   return (
     <li className={styles.fillings_item}>
-      <button
-        type="button"
-        className={styles.drag_button}
-        onClick={() => onIngredientClick(ingredient)}
-      >
+      <div className={styles.drag_button}>
         <DragIcon type="primary" />
-      </button>
+      </div>
       <ConstructorElement
         handleClose={() => onRemoveIngredient(ingredient.constructorId)}
         text={ingredient.name}
