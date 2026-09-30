@@ -12,6 +12,12 @@
     0 4px 32px rgb(51 51 255 / 50%);
 }
 
+.error {
+  padding: 80px 40px;
+  color: #f2f2f3;
+  text-align: center;
+}
+
 .icon_wrapper {
   display: flex;
   justify-content: center;

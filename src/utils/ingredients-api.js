@@ -16,27 +16,22 @@ export const getIngredients = async (signal) => {
   return data.data;
 };
 
-export const fetchIngredients = async ({
-  abortController,
-  setError,
-  setIngredients,
-  setIsLoading,
-}) => {
-  try {
-    setIsLoading(true);
-    setError('');
+export const createOrderRequest = async (ingredientIds) => {
+  const response = await fetch(`${settings.burgerApiUrl}/orders`, {
+    body: JSON.stringify({ ingredients: ingredientIds }),
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+  });
 
-    const ingredientsData = await getIngredients(abortController.signal);
-    setIngredients(ingredientsData);
-  } catch (fetchError) {
-    if (fetchError.name === 'AbortError') {
-      return;
-    }
-
-    setError(fetchError.message || 'Не удалось загрузить ингредиенты');
-  } finally {
-    if (!abortController.signal.aborted) {
-      setIsLoading(false);
-    }
+  if (!response.ok) {
+    throw new Error(`Ошибка запроса: ${response.status}`);
   }
+
+  const data = await response.json();
+
+  if (!data.success || !data.order?.number) {
+    throw new Error('Некорректный ответ сервера');
+  }
+
+  return data.order.number;
 };

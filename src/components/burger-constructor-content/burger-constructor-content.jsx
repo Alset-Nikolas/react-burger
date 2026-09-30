@@ -1,16 +1,31 @@
 import { ConstructorElement } from '@krgaa/react-developer-burger-ui-components';
+import { useDrop } from 'react-dnd';
 
 import { ConstructorFillingItem } from '@components/constructor-filling-item/constructor-filling-item';
+import { DND_TYPES } from '@utils/dnd-types';
 
 import styles from './burger-constructor-content.module.css';
 
 export const BurgerConstructorContent = ({
   bun,
   fillings,
+  onAddIngredient,
   onRemoveIngredient,
 }) => {
+  const [{ isOver }, dropRef] = useDrop(
+    () => ({
+      accept: DND_TYPES.INGREDIENT,
+      collect: (monitor) => ({ isOver: monitor.isOver() }),
+      drop: ({ ingredient }) => onAddIngredient(ingredient),
+    }),
+    [onAddIngredient]
+  );
+
   return (
-    <section className={styles.burger_constructor}>
+    <section
+      ref={dropRef}
+      className={`${styles.burger_constructor} ${isOver ? styles.drop_target : ''}`}
+    >
       {bun ? (
         <div className={styles.constructor_element}>
           <ConstructorElement
@@ -21,18 +36,29 @@ export const BurgerConstructorContent = ({
             thumbnail={bun.image}
           />
         </div>
-      ) : null}
+      ) : (
+        <p className={`${styles.placeholder} text text_type_main-default`}>
+          Перетащите булку
+        </p>
+      )}
 
       <div className={`${styles.fillings_list} custom-scroll`}>
-        <ul className={styles.fillings_items}>
-          {fillings.map((item) => (
-            <ConstructorFillingItem
-              key={item.constructorId}
-              ingredient={item}
-              onRemoveIngredient={onRemoveIngredient}
-            />
-          ))}
-        </ul>
+        {fillings.length ? (
+          <ul className={styles.fillings_items}>
+            {fillings.map((item, index) => (
+              <ConstructorFillingItem
+                key={item.constructorId}
+                index={index}
+                ingredient={item}
+                onRemoveIngredient={onRemoveIngredient}
+              />
+            ))}
+          </ul>
+        ) : (
+          <p className={`${styles.placeholder} text text_type_main-default`}>
+            Перетащите начинку
+          </p>
+        )}
       </div>
 
       {bun ? (
@@ -45,7 +71,11 @@ export const BurgerConstructorContent = ({
             thumbnail={bun.image}
           />
         </div>
-      ) : null}
+      ) : (
+        <p className={`${styles.placeholder} text text_type_main-default`}>
+          Перетащите булку
+        </p>
+      )}
     </section>
   );
 };
