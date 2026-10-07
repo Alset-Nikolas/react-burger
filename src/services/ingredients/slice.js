@@ -1,21 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { getIngredients } from '@utils/ingredients-api';
+import { fetchIngredients } from './actions';
 
-export const fetchIngredients = createAsyncThunk(
-  'ingredients/fetchIngredients',
-  async (_, { rejectWithValue, signal }) => {
-    try {
-      return await getIngredients(signal);
-    } catch (error) {
-      return rejectWithValue(error.message || 'Не удалось загрузить ингредиенты');
-    }
-  }
-);
-
-const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState: { error: null, items: [], status: 'idle' },
+  selectors: {
+    selectIngredients: (state) => state.items,
+    selectIngredientsError: (state) => state.error,
+    selectIngredientsStatus: (state) => state.status,
+  },
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -41,3 +35,6 @@ const ingredientsSlice = createSlice({
 });
 
 export const ingredientsReducer = ingredientsSlice.reducer;
+
+export const { selectIngredients, selectIngredientsError, selectIngredientsStatus } =
+  ingredientsSlice.selectors;

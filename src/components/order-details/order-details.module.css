@@ -25,8 +25,12 @@
   width: 120px;
   height: 120px;
   margin: 60px 0;
-  background:
-    radial-gradient(circle, rgb(76 76 255 / 32%) 0, rgb(76 76 255 / 8%) 55%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgb(76 76 255 / 32%) 0,
+    rgb(76 76 255 / 8%) 55%,
+    transparent 70%
+  );
   border-radius: 50%;
 }
 

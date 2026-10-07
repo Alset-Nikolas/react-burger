@@ -13,7 +13,12 @@ export const getIngredients = async (signal) => {
     throw new Error('Некорректный ответ сервера');
   }
 
-  return data.data;
+  return data.data.map((ingredient) => ({
+    ...ingredient,
+    image: `${import.meta.env.BASE_URL}images/${ingredient.image.split('/').pop()}`,
+    image_mobile: `${import.meta.env.BASE_URL}images/${ingredient.image_mobile.split('/').pop()}`,
+    image_large: `${import.meta.env.BASE_URL}images/${ingredient.image_large.split('/').pop()}`,
+  }));
 };
 
 export const createOrderRequest = async (ingredientIds) => {

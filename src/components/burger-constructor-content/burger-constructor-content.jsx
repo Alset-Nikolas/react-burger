@@ -11,11 +11,15 @@ export const BurgerConstructorContent = ({
   fillings,
   onAddIngredient,
   onRemoveIngredient,
+  onRemoveBun,
 }) => {
-  const [{ isOver }, dropRef] = useDrop(
+  const [{ isOver, draggedIngredientType }, dropRef] = useDrop(
     () => ({
       accept: DND_TYPES.INGREDIENT,
-      collect: (monitor) => ({ isOver: monitor.isOver() }),
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+        draggedIngredientType: monitor.getItem()?.ingredient?.type,
+      }),
       drop: ({ ingredient }) => onAddIngredient(ingredient),
     }),
     [onAddIngredient]
@@ -23,6 +27,7 @@ export const BurgerConstructorContent = ({
 
   return (
     <section
+      data-testid="constructor-drop-area"
       ref={dropRef}
       className={`${styles.burger_constructor} ${isOver ? styles.drop_target : ''}`}
     >
@@ -30,14 +35,17 @@ export const BurgerConstructorContent = ({
         <div className={styles.constructor_element}>
           <ConstructorElement
             type="top"
-            isLocked={true}
+            isLocked={false}
+            handleClose={onRemoveBun}
             text={`${bun.name} (верх)`}
             price={bun.price}
             thumbnail={bun.image}
           />
         </div>
       ) : (
-        <p className={`${styles.placeholder} text text_type_main-default`}>
+        <p
+          className={`${styles.placeholder} ${isOver && draggedIngredientType === 'bun' ? styles.placeholder_active : ''} text text_type_main-default`}
+        >
           Перетащите булку
         </p>
       )}
@@ -55,7 +63,9 @@ export const BurgerConstructorContent = ({
             ))}
           </ul>
         ) : (
-          <p className={`${styles.placeholder} text text_type_main-default`}>
+          <p
+            className={`${styles.placeholder} ${isOver && draggedIngredientType !== 'bun' ? styles.placeholder_active : ''} text text_type_main-default`}
+          >
             Перетащите начинку
           </p>
         )}
@@ -65,14 +75,17 @@ export const BurgerConstructorContent = ({
         <div className={styles.constructor_element}>
           <ConstructorElement
             type="bottom"
-            isLocked={true}
+            isLocked={false}
+            handleClose={onRemoveBun}
             text={`${bun.name} (низ)`}
             price={bun.price}
             thumbnail={bun.image}
           />
         </div>
       ) : (
-        <p className={`${styles.placeholder} text text_type_main-default`}>
+        <p
+          className={`${styles.placeholder} ${isOver && draggedIngredientType === 'bun' ? styles.placeholder_active : ''} text text_type_main-default`}
+        >
           Перетащите булку
         </p>
       )}

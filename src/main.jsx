@@ -1,4 +1,3 @@
-import { store } from '@store/store';
 import { StrictMode } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -6,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import { App } from '@components/app/app';
+import { store } from '@services/store';
 
 import './index.css';
 

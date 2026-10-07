@@ -1,13 +1,4 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { clearSelectedIngredient } from '@store/ingredient-details-slice';
-import { fetchIngredients } from '@store/ingredients-slice';
-import { resetOrder } from '@store/order-slice';
-import {
-  selectIngredientsError,
-  selectIngredientsStatus,
-  selectOrder,
-  selectSelectedIngredient,
-} from '@store/selectors';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,6 +8,16 @@ import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredi
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { Modal } from '@components/modal/modal';
 import { OrderDetails } from '@components/order-details/order-details';
+import {
+  clearSelectedIngredient,
+  selectSelectedIngredient,
+} from '@services/ingredient-details/slice';
+import { fetchIngredients } from '@services/ingredients/actions';
+import {
+  selectIngredientsError,
+  selectIngredientsStatus,
+} from '@services/ingredients/slice';
+import { resetOrder, selectOrder } from '@services/order/slice';
 
 import styles from './app.module.css';
 

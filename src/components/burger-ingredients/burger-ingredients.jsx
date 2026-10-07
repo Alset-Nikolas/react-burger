@@ -1,10 +1,11 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
-import { selectIngredient } from '@store/ingredient-details-slice';
-import { selectIngredientCounts, selectIngredients } from '@store/selectors';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { IngredientSection } from '@components/ingredient-section/ingredient-section';
+import { selectIngredientCounts } from '@services/burger-constructor/slice';
+import { selectIngredient } from '@services/ingredient-details/slice';
+import { selectIngredients } from '@services/ingredients/slice';
 import { getIngredientsByType, INGREDIENT_TYPES } from '@utils/ingredient-types';
 
 import styles from './burger-ingredients.module.css';

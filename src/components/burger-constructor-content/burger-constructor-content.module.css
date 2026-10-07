@@ -42,3 +42,8 @@
   border: 1px dashed #4c4cff;
   border-radius: 12px;
 }
+
+.placeholder_active {
+  color: #f2f2f3;
+  background-color: #25254c;
+}

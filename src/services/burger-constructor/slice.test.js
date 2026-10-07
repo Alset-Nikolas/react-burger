@@ -5,8 +5,10 @@ import {
   burgerConstructorReducer,
   moveIngredient,
   removeIngredient,
-} from './burger-constructor-slice';
-import { selectIngredientCounts, selectTotalPrice } from './selectors';
+  removeBun,
+  selectIngredientCounts,
+  selectTotalPrice,
+} from './slice';
 
 const bun = { _id: 'bun-id', name: 'Булка', price: 100, type: 'bun' };
 const filling = { _id: 'filling-id', name: 'Начинка', price: 50, type: 'main' };
@@ -44,6 +46,25 @@ describe('burgerConstructor reducer', () => {
   });
 });
 
+describe('bun replacement and removal', () => {
+  it('replaces both bun halves and resets their count when removed', () => {
+    let state = burgerConstructorReducer(undefined, addIngredient(bun));
+    state = burgerConstructorReducer(state, addIngredient(filling));
+    const replacement = { ...bun, _id: 'replacement', price: 200 };
+    state = burgerConstructorReducer(state, addIngredient(replacement));
+    expect(selectIngredientCounts({ burgerConstructor: state })).toEqual({
+      replacement: 2,
+      'filling-id': 1,
+    });
+    expect(selectTotalPrice({ burgerConstructor: state })).toBe(450);
+    state = burgerConstructorReducer(state, removeBun());
+    expect(selectIngredientCounts({ burgerConstructor: state })).toEqual({
+      'filling-id': 1,
+    });
+    expect(selectTotalPrice({ burgerConstructor: state })).toBe(50);
+  });
+});
+
 describe('burger selectors', () => {
   const state = {
     burgerConstructor: {
@@ -54,6 +75,13 @@ describe('burger selectors', () => {
       ],
     },
   };
+
+  it('memoizes derived values when unrelated state changes', () => {
+    const counts = selectIngredientCounts(state);
+    expect(selectIngredientCounts({ ...state, order: { status: 'loading' } })).toBe(
+      counts
+    );
+  });
 
   it('calculates counters and total price from constructor state', () => {
     expect(selectIngredientCounts(state)).toEqual({ 'bun-id': 2, 'filling-id': 2 });

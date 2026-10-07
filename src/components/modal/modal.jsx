@@ -27,10 +27,20 @@ export const Modal = ({ children, onClose, title = '' }) => {
     <>
       <ModalOverlay onClick={onClose} />
       <div className={styles.wrapper}>
-        <section className={styles.modal}>
+        <section
+          role="dialog"
+          aria-modal="true"
+          aria-label={title || 'Оформление заказа'}
+          className={styles.modal}
+        >
           <header className={styles.header}>
             {title ? <h2 className="text text_type_main-large">{title}</h2> : <div />}
-            <button className={styles.close_button} type="button" onClick={onClose}>
+            <button
+              aria-label="Закрыть"
+              className={styles.close_button}
+              type="button"
+              onClick={onClose}
+            >
               <CloseIcon type="primary" />
             </button>
           </header>

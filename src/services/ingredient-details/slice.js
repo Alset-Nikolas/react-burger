@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const ingredientDetailsSlice = createSlice({
+export const ingredientDetailsSlice = createSlice({
   name: 'ingredientDetails',
   initialState: { item: null },
+  selectors: {
+    selectSelectedIngredient: (state) => state.item,
+  },
   reducers: {
     clearSelectedIngredient: (state) => {
       state.item = null;
@@ -16,3 +19,5 @@ const ingredientDetailsSlice = createSlice({
 export const { clearSelectedIngredient, selectIngredient } =
   ingredientDetailsSlice.actions;
 export const ingredientDetailsReducer = ingredientDetailsSlice.reducer;
+
+export const { selectSelectedIngredient } = ingredientDetailsSlice.selectors;

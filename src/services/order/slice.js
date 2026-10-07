@@ -1,21 +1,13 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-import { createOrderRequest } from '@utils/ingredients-api';
+import { createOrder } from './actions';
 
-export const createOrder = createAsyncThunk(
-  'order/createOrder',
-  async (ingredientIds, { rejectWithValue }) => {
-    try {
-      return await createOrderRequest(ingredientIds);
-    } catch (error) {
-      return rejectWithValue(error.message || 'Не удалось оформить заказ');
-    }
-  }
-);
-
-const orderSlice = createSlice({
+export const orderSlice = createSlice({
   name: 'order',
   initialState: { error: null, number: null, status: 'idle' },
+  selectors: {
+    selectOrder: (state) => state,
+  },
   reducers: {
     resetOrder: (state) => {
       state.error = null;
@@ -43,3 +35,5 @@ const orderSlice = createSlice({
 
 export const { resetOrder } = orderSlice.actions;
 export const orderReducer = orderSlice.reducer;
+
+export const { selectOrder } = orderSlice.selectors;
