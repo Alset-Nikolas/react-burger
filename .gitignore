@@ -30,6 +30,7 @@ storybook-static
 
 playwright-report
 test-results
+/e2e/
 
 # Local agent documents and workspace state
 /docs/superpowers/
