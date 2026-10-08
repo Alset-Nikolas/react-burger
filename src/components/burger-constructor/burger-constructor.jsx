@@ -4,7 +4,6 @@ import { BurgerConstructorContent } from '@components/burger-constructor-content
 import { BurgerConstructorOrder } from '@components/burger-constructor-order/burger-constructor-order';
 import {
   addIngredient,
-  removeBun,
   removeIngredient,
   selectConstructorBun,
   selectConstructorIngredients,
@@ -35,7 +34,6 @@ export const BurgerConstructor = () => {
         bun={bun}
         fillings={ingredients}
         onAddIngredient={(ingredient) => dispatch(addIngredient(ingredient))}
-        onRemoveBun={() => dispatch(removeBun())}
         onRemoveIngredient={(constructorId) => dispatch(removeIngredient(constructorId))}
       />
       <BurgerConstructorOrder

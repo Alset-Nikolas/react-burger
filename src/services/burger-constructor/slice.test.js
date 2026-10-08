@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
+import { createOrder } from '@services/order/actions';
+
 import {
   addIngredient,
   burgerConstructorReducer,
   moveIngredient,
   removeIngredient,
-  removeBun,
   selectIngredientCounts,
   selectTotalPrice,
 } from './slice';
@@ -46,8 +47,8 @@ describe('burgerConstructor reducer', () => {
   });
 });
 
-describe('bun replacement and removal', () => {
-  it('replaces both bun halves and resets their count when removed', () => {
+describe('bun replacement and order completion', () => {
+  it('replaces both bun halves and clears the constructor after a successful order', () => {
     let state = burgerConstructorReducer(undefined, addIngredient(bun));
     state = burgerConstructorReducer(state, addIngredient(filling));
     const replacement = { ...bun, _id: 'replacement', price: 200 };
@@ -57,11 +58,27 @@ describe('bun replacement and removal', () => {
       'filling-id': 1,
     });
     expect(selectTotalPrice({ burgerConstructor: state })).toBe(450);
-    state = burgerConstructorReducer(state, removeBun());
-    expect(selectIngredientCounts({ burgerConstructor: state })).toEqual({
-      'filling-id': 1,
-    });
-    expect(selectTotalPrice({ burgerConstructor: state })).toBe(50);
+    state = burgerConstructorReducer(
+      state,
+      createOrder.fulfilled(123456, 'request-id', [])
+    );
+    expect(state).toEqual({ bun: null, ingredients: [] });
+    expect(selectIngredientCounts({ burgerConstructor: state })).toEqual({});
+    expect(selectTotalPrice({ burgerConstructor: state })).toBe(0);
+  });
+
+  it('keeps ingredients while the order is pending or fails', () => {
+    let state = burgerConstructorReducer(undefined, addIngredient(bun));
+    state = burgerConstructorReducer(state, addIngredient(filling));
+    const originalState = state;
+
+    state = burgerConstructorReducer(state, createOrder.pending('request-id', []));
+    expect(state).toEqual(originalState);
+    state = burgerConstructorReducer(
+      state,
+      createOrder.rejected(new Error('Ошибка запроса'), 'request-id', [])
+    );
+    expect(state).toEqual(originalState);
   });
 });
 

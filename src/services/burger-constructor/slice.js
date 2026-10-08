@@ -1,5 +1,6 @@
 import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit';
 
+import { createOrder } from '@services/order/actions';
 import { INGREDIENT_TYPES } from '@utils/ingredient-types';
 
 export const burgerConstructorSlice = createSlice({
@@ -48,18 +49,21 @@ export const burgerConstructorSlice = createSlice({
 
       state.ingredients.splice(hoverIndex, 0, ingredient);
     },
-    removeBun: (state) => {
-      state.bun = null;
-    },
     removeIngredient: (state, action) => {
       state.ingredients = state.ingredients.filter(
         (ingredient) => ingredient.constructorId !== action.payload
       );
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(createOrder.fulfilled, (state) => {
+      state.bun = null;
+      state.ingredients = [];
+    });
+  },
 });
 
-export const { addIngredient, moveIngredient, removeBun, removeIngredient } =
+export const { addIngredient, moveIngredient, removeIngredient } =
   burgerConstructorSlice.actions;
 export const burgerConstructorReducer = burgerConstructorSlice.reducer;
 

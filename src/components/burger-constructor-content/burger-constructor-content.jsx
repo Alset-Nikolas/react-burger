@@ -11,7 +11,6 @@ export const BurgerConstructorContent = ({
   fillings,
   onAddIngredient,
   onRemoveIngredient,
-  onRemoveBun,
 }) => {
   const [{ isOver, draggedIngredientType }, dropRef] = useDrop(
     () => ({
@@ -35,8 +34,7 @@ export const BurgerConstructorContent = ({
         <div className={styles.constructor_element}>
           <ConstructorElement
             type="top"
-            isLocked={false}
-            handleClose={onRemoveBun}
+            isLocked
             text={`${bun.name} (верх)`}
             price={bun.price}
             thumbnail={bun.image}
@@ -75,8 +73,7 @@ export const BurgerConstructorContent = ({
         <div className={styles.constructor_element}>
           <ConstructorElement
             type="bottom"
-            isLocked={false}
-            handleClose={onRemoveBun}
+            isLocked
             text={`${bun.name} (низ)`}
             price={bun.price}
             thumbnail={bun.image}
