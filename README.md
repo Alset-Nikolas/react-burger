@@ -1,4 +1,33 @@
-# Стартер на JavaScript для проекта Stellar Burger
+# Stellar Burger — проект второго спринта
+
+Приложение на React и Redux Toolkit: сборка бургера перетаскиванием, сортировка и удаление ингредиентов, счётчики, расчёт стоимости и оформление заказа через API.
+
+## Локальный запуск
+
+```sh
+npm ci
+npm run dev
+```
+
+Откройте http://localhost:5173. Для загрузки ингредиентов и оформления заказа нужен доступ к API, указанному в `src/settings/config.js`.
+
+## Проверки
+
+```sh
+npm run build
+npm run test -- --run
+npm run check
+npm run e2e -- --project=chromium
+```
+
+Браузерные тесты запускают локальный сервер автоматически и подменяют ответы API для воспроизводимости. Перед первым запуском установите браузер: `npx playwright install chromium`.
+
+## Структура
+
+- `src/components` — компоненты и CSS-модули.
+- `src/services` — Redux-хранилище и API; папки `ingredients`, `burger-constructor`, `order`, `ingredient-details` содержат слайсы и селекторы. Асинхронные экшены находятся в отдельных `actions.js`.
+- `src/settings` — адрес API.
+- `src/utils` — типы ингредиентов и перетаскивания.
 
 ## Процедура создания коммита с проверками
 
@@ -31,7 +60,7 @@
 	alias: {
 		'@': path.resolve(__dirname, './src'),
 		'@components': path.resolve(__dirname, './src/components'),
-		'@services': path.resolve(__dirname, './src/utils'),
+		'@services': path.resolve(__dirname, './src/services'),
 		'@pages': path.resolve(__dirname, './src/pages'),
 		'@utils': path.resolve(__dirname, './src/utils'),
 	},

@@ -1,6 +1,48 @@
 import { Counter, CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
+import { useDrag } from 'react-dnd';
+
+import { DND_TYPES } from '@utils/dnd-types';
 
 import styles from './ingredient-section.module.css';
+
+const DraggableIngredient = ({ count, ingredient, onIngredientClick }) => {
+  const [{ isDragging }, dragRef] = useDrag(
+    () => ({
+      collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+      item: { ingredient },
+      type: DND_TYPES.INGREDIENT,
+    }),
+    [ingredient]
+  );
+
+  return (
+    <li>
+      <button
+        ref={dragRef}
+        className={styles.ingredient_card}
+        style={{ opacity: isDragging ? 0.4 : 1 }}
+        type="button"
+        onClick={() => onIngredientClick(ingredient)}
+      >
+        {count ? <Counter count={count} /> : null}
+        <img
+          className={styles.ingredient_image}
+          src={ingredient.image}
+          alt={ingredient.name}
+        />
+        <div className={styles.price_row}>
+          <p className={`${styles.price} text text_type_digits-default`}>
+            {ingredient.price}
+          </p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <p className={`${styles.ingredient_name} text text_type_main-default`}>
+          {ingredient.name}
+        </p>
+      </button>
+    </li>
+  );
+};
 
 export const IngredientSection = ({
   ingredientCounts,
@@ -14,31 +56,12 @@ export const IngredientSection = ({
       <h2 className="text text_type_main-medium">{title}</h2>
       <ul className={styles.ingredients_list}>
         {ingredients.map((item) => (
-          <li key={item._id}>
-            <button
-              className={styles.ingredient_card}
-              type="button"
-              onClick={() => onIngredientClick(item)}
-            >
-              {ingredientCounts[item._id] ? (
-                <Counter count={ingredientCounts[item._id]} />
-              ) : null}
-              <img
-                className={styles.ingredient_image}
-                src={item.image}
-                alt={item.name}
-              />
-              <div className={styles.price_row}>
-                <p className={`${styles.price} text text_type_digits-default`}>
-                  {item.price}
-                </p>
-                <CurrencyIcon type="primary" />
-              </div>
-              <p className={`${styles.ingredient_name} text text_type_main-default`}>
-                {item.name}
-              </p>
-            </button>
-          </li>
+          <DraggableIngredient
+            key={item._id}
+            count={ingredientCounts[item._id]}
+            ingredient={item}
+            onIngredientClick={onIngredientClick}
+          />
         ))}
       </ul>
     </section>
